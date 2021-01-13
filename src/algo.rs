@@ -713,23 +713,7 @@ impl Forest {
 
                 child.hypothetical_inner_size.set_cross(
                     dir,
-                    self.compute_internal(
-                        child.node,
-                        Size {
-                            width: if is_row { child.target_size.width.to_number() } else { child_cross },
-                            height: if is_row { child_cross } else { child.target_size.height.to_number() },
-                        },
-                        Size {
-                            width: if is_row { container_size.main(dir).to_number() } else { available_space.width },
-                            height: if is_row { available_space.height } else { container_size.main(dir).to_number() },
-                        },
-                        false,
-                        false,
-                    )?
-                    .size
-                    .cross(dir)
-                    .maybe_max(child.min_size.cross(dir))
-                    .maybe_min(child.max_size.cross(dir)),
+                    available_space.cross(dir).or_else(0.0)
                 );
 
                 child
